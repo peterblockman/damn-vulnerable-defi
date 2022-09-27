@@ -19,6 +19,8 @@ contract FlashLoanReceiver {
 
     // Function called by the pool during flash loan
     function receiveEther(uint256 fee) public payable {
+        // this function does not have an only owner check
+        // everyone can take flashloan instead of the owner
         require(msg.sender == pool, "Sender must be pool");
 
         uint256 amountToBeRepaid = msg.value + fee;
