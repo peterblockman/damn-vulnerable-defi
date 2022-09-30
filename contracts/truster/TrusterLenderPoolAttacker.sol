@@ -3,7 +3,15 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./ITrusterLenderPool.sol";
+
+interface ITrusterLenderPool {
+    function flashLoan(
+        uint256 borrowAmount,
+        address borrower,
+        address target,
+        bytes calldata data
+    ) external;
+}
 
 contract TrusterLenderPoolAttacker {
     function attack(

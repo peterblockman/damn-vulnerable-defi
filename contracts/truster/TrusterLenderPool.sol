@@ -33,6 +33,9 @@ contract TrusterLenderPool is ReentrancyGuard {
         require(balanceBefore >= borrowAmount, "Not enough tokens in pool");
         
         damnValuableToken.transfer(borrower, borrowAmount);
+        
+        // this is risky, if the attacker call token.approve + transferFrom
+        // the attacker can drain all the balance
         target.functionCall(data);
 
         uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
